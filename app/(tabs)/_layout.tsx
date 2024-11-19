@@ -1,9 +1,11 @@
-import { Link, Tabs } from 'expo-router'
-import { Button, useTheme } from 'tamagui'
-import { Atom, AudioWaveform } from '@tamagui/lucide-icons'
+import { Link, Tabs } from "expo-router";
+import { Button, useTheme } from "tamagui";
+import { Atom, AudioWaveform, User } from "@tamagui/lucide-icons";
+
+import { supabase } from "@/lib/supabase";
 
 export default function TabLayout() {
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <Tabs
@@ -23,7 +25,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
+          title: "Feed",
           tabBarIcon: ({ color }) => <Atom color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
@@ -37,10 +39,27 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
+          title: "Tab Two",
           tabBarIcon: ({ color }) => <AudioWaveform color={color} />,
         }}
       />
+      <Tabs.Screen
+        name="account"
+        options={{
+          title: "Account",
+          tabBarIcon: ({ color }) => <User color={color} />,
+          headerRight: () => (
+            <Button
+              mr="$4"
+              bg="$red8"
+              color="$red12"
+              onPress={() => supabase.auth.signOut()}
+            >
+              Sign out
+            </Button>
+          ),
+        }}
+      />
     </Tabs>
-  )
+  );
 }
